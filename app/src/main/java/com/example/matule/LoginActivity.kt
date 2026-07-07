@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
  * Дата создания: 2026-07-05
  * Автор: разработчик
  */
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
     }
 }

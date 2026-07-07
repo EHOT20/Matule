@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.matule.presentation.home.HomeFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/navigation_catalog"
+        android:name="com.example.matule.presentation.catalog.CatalogFragment"
+        android:label="Catalog" />
+
+    <fragment
+        android:id="@+id/navigation_popular"
+        android:name="com.example.matule.presentation.popular.PopularFragment"
+        android:label="Popular">
+        <action
+            android:id="@+id/action_popular_to_favorites"
+            app:destination="@id/navigation_favorites" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_favorites"
+        android:name="com.example.matule.presentation.favorites.FavoritesFragment"
+        android:label="Favorites" />
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.matule.presentation.cart.CartFragment"
+        android:label="Cart" />
+
+</navigation>
