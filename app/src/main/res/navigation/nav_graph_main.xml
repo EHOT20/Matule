@@ -56,4 +56,21 @@
             app:destination="@id/navigation_home" />
     </fragment>
 
+    <!-- Новый фрагмент для истории заказов -->
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.example.matule.presentation.orders.OrdersFragment"
+        android:label="История заказов" />
+
+    <!-- Заглушки для профиля и уведомлений (позже добавим) -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.matule.presentation.profile.ProfileFragment"
+        android:label="Профиль" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.matule.presentation.notifications.NotificationsFragment"
+        android:label="Уведомления" />
+
 </navigation>

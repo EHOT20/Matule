@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.example.matule.R
 import com.example.matule.data.repositories.CartRepository
 import com.example.matule.data.repositories.FavoritesRepository
@@ -27,7 +28,6 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var btnExpand: View
     private lateinit var btnAddToCart: View
     private lateinit var btnFavorite: ImageButton
-    private lateinit var btnBack: ImageButton
 
     private var products: List<Product> = emptyList()
     private var currentPosition = 0
@@ -57,7 +57,6 @@ class ProductDetailsFragment : Fragment() {
         btnExpand = view.findViewById(R.id.btnExpandDescription)
         btnAddToCart = view.findViewById(R.id.btnAddToCart)
         btnFavorite = view.findViewById(R.id.btnFavorite)
-        btnBack = view.findViewById(R.id.btnBack)
 
         viewPager.adapter = ProductImageAdapter(products)
         viewPager.currentItem = currentPosition
@@ -68,10 +67,6 @@ class ProductDetailsFragment : Fragment() {
                 updateProductDetails(position)
             }
         })
-
-        btnBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
 
         btnExpand.setOnClickListener {
             isDescriptionExpanded = !isDescriptionExpanded
@@ -132,7 +127,12 @@ class ProductDetailsFragment : Fragment() {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val imageView = ImageView(requireContext())
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-            imageView.setImageResource(R.drawable.ic_launcher_foreground)
+            // Загрузка через Coil
+            val url = arguments?.getString("url") ?: ""
+            imageView.load(url) {
+                placeholder(R.drawable.ic_launcher_foreground)
+                error(R.drawable.ic_launcher_foreground)
+            }
             return imageView
         }
     }

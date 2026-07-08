@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.matule.R
 import com.example.matule.data.repositories.FavoritesRepository
-import com.example.matule.data.repositories.MockProductRepository
 import com.example.matule.domain.models.Product
 
 class FavoritesFragment : Fragment() {
@@ -42,7 +42,6 @@ class FavoritesFragment : Fragment() {
 
         adapter = FavoritesAdapter { product ->
             viewModel.toggleFavorite(product)
-            // Обновляем список после удаления
             viewModel.loadFavorites()
         }
         recyclerView.adapter = adapter
@@ -51,7 +50,6 @@ class FavoritesFragment : Fragment() {
             adapter.submitList(products)
         }
 
-        // При возврате на вкладку обновляем список
         viewModel.loadFavorites()
     }
 
@@ -87,11 +85,19 @@ class FavoritesFragment : Fragment() {
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val title: TextView = itemView.findViewById(R.id.productTitle)
             private val price: TextView = itemView.findViewById(R.id.productPrice)
+            private val imageView: ImageView = itemView.findViewById(R.id.productImage)
             private val favoriteButton: ImageButton = itemView.findViewById(R.id.favoriteButton)
 
             fun bind(product: Product, onFavoriteClick: (Product) -> Unit) {
                 title.text = product.title
                 price.text = "${product.price} ₽"
+
+                // Загрузка картинки через Coil
+                imageView.load(product.imageUrl) {
+                    placeholder(R.drawable.ic_launcher_foreground)
+                    error(R.drawable.ic_launcher_foreground)
+                }
+
                 favoriteButton.setImageResource(R.drawable.ic_favorite)
                 favoriteButton.setOnClickListener {
                     onFavoriteClick(product)

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.matule.R
 import com.example.matule.data.repositories.FavoritesRepository
 import com.example.matule.data.repositories.MockProductRepository
@@ -77,9 +78,13 @@ class PopularFragment : Fragment() {
             fun bind(product: Product, onItemClick: (Product) -> Unit) {
                 title.text = product.title
                 price.text = "${product.price} ₽"
-                productImage.setImageResource(R.drawable.ic_launcher_foreground)
 
-                // Обновляем иконку избранного
+                // Загрузка картинки через Coil
+                productImage.load(product.imageUrl) {
+                    placeholder(R.drawable.ic_launcher_foreground)
+                    error(R.drawable.ic_launcher_foreground)
+                }
+
                 val isFavorite = favoritesRepository.getFavorites().contains(product.id)
                 favoriteButton.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
 
