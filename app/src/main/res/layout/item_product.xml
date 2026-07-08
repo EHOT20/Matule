@@ -13,15 +13,18 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
+        <!-- Изображение товара -->
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
+        <!-- Название -->
         <TextView
             android:id="@+id/productTitle"
             android:layout_width="0dp"
@@ -34,6 +37,7 @@
             app:layout_constraintEnd_toStartOf="@id/favoriteButton"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Цена -->
         <TextView
             android:id="@+id/productPrice"
             android:layout_width="0dp"
@@ -45,12 +49,14 @@
             app:layout_constraintEnd_toStartOf="@id/favoriteButton"
             app:layout_constraintTop_toBottomOf="@id/productTitle" />
 
+        <!-- Кнопка "Избранное" -->
         <ImageButton
             android:id="@+id/favoriteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_favorite_border"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

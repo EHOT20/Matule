@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.matule.R
 import com.example.matule.data.repositories.CartRepository
 import com.example.matule.data.repositories.MockProductRepository
@@ -71,7 +73,6 @@ class CartFragment : Fragment() {
         })
         touchHelper.attachToRecyclerView(binding.cartRecyclerView)
 
-        // Кнопка "Оформить заказ"
         binding.btnCheckout.setOnClickListener {
             if (cartProductIds.isNotEmpty()) {
                 findNavController().navigate(R.id.action_cart_to_checkout)
@@ -120,12 +121,20 @@ class CartFragment : Fragment() {
             private val title: TextView = view.findViewById(R.id.productTitle)
             private val price: TextView = view.findViewById(R.id.productPrice)
             private val quantity: TextView = view.findViewById(R.id.productQuantity)
+            private val imageView: ImageView = view.findViewById(R.id.productImage)
             private val removeButton: View = view.findViewById(R.id.removeButton)
 
             fun bind(product: Product?, onRemove: (String) -> Unit) {
                 title.text = product?.title ?: "Неизвестный товар"
                 price.text = "${product?.price ?: 0} ₽"
                 quantity.text = "Кол-во: 1"
+
+                // Загрузка картинки через Coil
+                imageView.load(product?.imageUrl) {
+                    placeholder(R.drawable.ic_launcher_foreground)
+                    error(R.drawable.ic_launcher_foreground)
+                }
+
                 removeButton.setOnClickListener {
                     product?.id?.let { onRemove(it) }
                 }
