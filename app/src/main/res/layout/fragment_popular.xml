@@ -10,13 +10,12 @@
         android:layout_height="wrap_content"
         android:text="Популярное"
         android:textSize="24sp"
-        android:layout_gravity="center"
+        android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
-    <!-- Пример карточки товара (можно использовать item_product) -->
-    <include
-        layout="@layout/item_product"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/popularRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

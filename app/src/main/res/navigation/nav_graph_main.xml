@@ -18,9 +18,10 @@
         android:id="@+id/navigation_popular"
         android:name="com.example.matule.presentation.popular.PopularFragment"
         android:label="Popular">
+        <!-- Действие для перехода в детали товара -->
         <action
-            android:id="@+id/action_popular_to_favorites"
-            app:destination="@id/navigation_favorites" />
+            android:id="@+id/action_popular_to_details"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
 
     <fragment
@@ -32,5 +33,15 @@
         android:id="@+id/navigation_cart"
         android:name="com.example.matule.presentation.cart.CartFragment"
         android:label="Cart" />
+
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.matule.presentation.product.ProductDetailsFragment"
+        android:label="Детали товара" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.matule.presentation.search.SearchFragment"
+        android:label="Поиск" />
 
 </navigation>
