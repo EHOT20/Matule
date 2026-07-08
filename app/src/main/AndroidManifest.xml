@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Разрешения для геолокации -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name=".common.App"
         android:allowBackup="true"
@@ -29,17 +33,14 @@
             android:theme="@style/Theme.Matule" />
 
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".presentation.auth.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.Matule" />
 
-        <!-- LoginActivity временно отключена -->
-        <!--
         <activity
-            android:name=".LoginActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="false"
             android:theme="@style/Theme.Matule" />
-        -->
 
     </application>
 

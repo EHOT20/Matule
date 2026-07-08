@@ -1,23 +1,20 @@
 package com.example.matule.presentation.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.matule.R
 import com.example.matule.common.BaseFragment
 import com.example.matule.databinding.FragmentLoginBinding
+import com.example.matule.presentation.main.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-/**
- * Фрагмент экрана входа.
- * Обрабатывает ввод данных, валидацию и вызов ViewModel.
- * Дата создания: 2026-07-05
- * Автор: разработчик
- */
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val viewModel: LoginViewModel by viewModel()
@@ -33,7 +30,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun setupListeners() {
-        // Кнопка входа
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -42,22 +38,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             }
         }
 
-        // Кнопка "Забыли пароль?" – пока тост
         binding.tvForgotPassword.setOnClickListener {
-            Toast.makeText(requireContext(), "Переход на восстановление пароля", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_login_to_forgot)
         }
 
-        // Кнопка "Создать пользователя" – пока тост
         binding.tvSignUp.setOnClickListener {
-            Toast.makeText(requireContext(), "Переход на регистрацию", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_login_to_signup)
         }
     }
 
-    /**
-     * Валидация полей: email по паттерну, пароль не пустой.
-     * При ошибке показывает диалог.
-     * @return true, если валидация пройдена
-     */
     private fun validate(email: String, password: String): Boolean {
         if (!viewModel.validateEmail(email)) {
             showErrorDialog("Некорректный email. Формат: name@domen.ru")
@@ -70,9 +59,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         return true
     }
 
-    /**
-     * Показывает диалоговое окно с ошибкой.
-     */
     private fun showErrorDialog(message: String) {
         AlertDialog.Builder(requireContext())
             .setTitle("Ошибка")
@@ -82,13 +68,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun observeViewModel() {
-        // Индикация загрузки
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-            binding.btnLogin.isEnabled = !loading
         }
 
-        // Ошибки от сервера или сети
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 showErrorDialog(it)
@@ -96,12 +79,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             }
         }
 
-        // Результат авторизации
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
             result?.onSuccess {
                 Toast.makeText(requireContext(), "Вход выполнен", Toast.LENGTH_SHORT).show()
-                // TODO: переход на экран Home (реализуем после настройки навигации)
-                // findNavController().navigate(R.id.action_login_to_home)
+                // Переход на главный экран
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+                requireActivity().finish()
             }
         }
     }
