@@ -7,18 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.matule.R
 import com.example.matule.data.repositories.CartRepository
 import com.example.matule.data.repositories.MockProductRepository
+import com.example.matule.databinding.FragmentCartBinding
 import com.example.matule.domain.models.Product
 
 class CartFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var totalPriceTextView: TextView
+    private lateinit var binding: FragmentCartBinding
     private lateinit var cartRepository: CartRepository
     private lateinit var adapter: CartAdapter
     private val cartProductIds = mutableListOf<String>()
@@ -28,14 +29,12 @@ class CartFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_cart, container, false)
+        binding = FragmentCartBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        recyclerView = view.findViewById(R.id.cartRecyclerView)
-        totalPriceTextView = view.findViewById(R.id.totalPrice)
 
         cartRepository = CartRepository(requireContext())
 
@@ -43,8 +42,9 @@ class CartFragment : Fragment() {
             cartRepository.removeProduct(productId)
             loadCart()
         }
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+
+        binding.cartRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.cartRecyclerView.adapter = adapter
 
         loadCart()
 
@@ -69,7 +69,16 @@ class CartFragment : Fragment() {
                 }
             }
         })
-        touchHelper.attachToRecyclerView(recyclerView)
+        touchHelper.attachToRecyclerView(binding.cartRecyclerView)
+
+        // Кнопка "Оформить заказ"
+        binding.btnCheckout.setOnClickListener {
+            if (cartProductIds.isNotEmpty()) {
+                findNavController().navigate(R.id.action_cart_to_checkout)
+            } else {
+                Toast.makeText(requireContext(), "Корзина пуста", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         updateTotal()
     }
@@ -79,13 +88,14 @@ class CartFragment : Fragment() {
         cartProductIds.addAll(cartRepository.getCart())
         adapter.notifyDataSetChanged()
         updateTotal()
+        binding.btnCheckout.isEnabled = cartProductIds.isNotEmpty()
     }
 
     private fun updateTotal() {
         val total = cartProductIds.sumOf { productId ->
             MockProductRepository.getProducts().firstOrNull { it.id == productId }?.price ?: 0.0
         }
-        totalPriceTextView.text = "Итого: ${String.format("%.2f", total)} ₽"
+        binding.totalPrice.text = "Итого: ${String.format("%.2f", total)} ₽"
     }
 
     inner class CartAdapter(

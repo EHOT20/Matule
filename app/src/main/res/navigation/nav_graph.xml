@@ -7,7 +7,55 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.matule.presentation.auth.LoginFragment"
-        android:label="Login" />
+        android:label="Login">
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_login_to_forgot"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
-    <!-- Позже добавим homeFragment -->
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.matule.presentation.auth.SignUpFragment"
+        android:label="Sign Up">
+        <action
+            android:id="@+id/action_signup_to_login"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signup_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.matule.presentation.auth.ForgotPasswordFragment"
+        android:label="Forgot Password">
+        <action
+            android:id="@+id/action_forgot_to_otp"
+            app:destination="@id/otpVerificationFragment" />
+        <action
+            android:id="@+id/action_forgot_to_login"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otpVerificationFragment"
+        android:name="com.example.matule.presentation.auth.OTPVerificationFragment"
+        android:label="OTP Verification">
+        <action
+            android:id="@+id/action_otp_to_login"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- Домашний экран (для перехода после входа/регистрации) -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.matule.presentation.home.HomeFragment"
+        android:label="Home" />
+
 </navigation>

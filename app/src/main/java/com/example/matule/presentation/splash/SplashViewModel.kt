@@ -11,14 +11,14 @@ class SplashViewModel(private val context: Context) : ViewModel() {
     val navigationEvent: LiveData<SplashDestination> = _navigationEvent
 
     fun checkFirstLaunch() {
-        // Проверяем, был ли показан онбординг
         val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val onboardingShown = prefs.getBoolean("onboarding_shown", false)
+        val isLoggedIn = prefs.getBoolean("is_logged_in", false) // пока всегда false
 
-        _navigationEvent.value = if (onboardingShown) {
-            SplashDestination.MAIN
-        } else {
-            SplashDestination.ONBOARDING
+        _navigationEvent.value = when {
+            !onboardingShown -> SplashDestination.ONBOARDING
+            isLoggedIn -> SplashDestination.MAIN
+            else -> SplashDestination.LOGIN
         }
     }
 }

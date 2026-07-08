@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.example.matule.presentation.auth.LoginActivity
 import com.example.matule.presentation.main.MainActivity
 import com.example.matule.presentation.onboarding.OnboardingActivity
 
@@ -33,6 +34,9 @@ class SplashActivity : AppCompatActivity() {
                 SplashDestination.ONBOARDING -> {
                     startActivity(Intent(this, OnboardingActivity::class.java))
                 }
+                SplashDestination.LOGIN -> {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
                 SplashDestination.MAIN -> {
                     startActivity(Intent(this, MainActivity::class.java))
                 }
@@ -44,5 +48,6 @@ class SplashActivity : AppCompatActivity() {
 
 sealed class SplashDestination {
     object ONBOARDING : SplashDestination()
+    object LOGIN : SplashDestination()
     object MAIN : SplashDestination()
 }

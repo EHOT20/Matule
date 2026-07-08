@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.matule.R
-import com.example.matule.presentation.main.MainActivity
+import com.example.matule.presentation.auth.LoginActivity
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -47,8 +47,8 @@ class OnboardingActivity : AppCompatActivity() {
                 // Сохраняем, что онбординг показан
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("onboarding_shown", true).apply()
-                // Переход на главный экран
-                startActivity(Intent(this, MainActivity::class.java))
+                // Переход на экран входа (LoginActivity)
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
@@ -84,7 +84,6 @@ class OnboardingActivity : AppCompatActivity() {
         btnAction.text = if (position == adapter.itemCount - 1) "Начать" else "Далее"
     }
 
-    // Функция для перевода dp в px с использованием контекста
     private fun dpToPx(dp: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
